@@ -1,0 +1,184 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import PriceBoard from '@/components/PriceBoard.astro';
+import FaqList from '@/components/FaqList.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import { prices, formatPrice } from '@/data/site';
+import { moving } from '@/data/faqs';
+import { faqSchema, serviceSchema } from '@/lib/schema';
+import greenLodge from '@/assets/photos/green-lodge.jpg';
+
+const steps = [
+  ['Strip the table down', 'Pockets, rails and cloth come off first so nothing tears or snaps.'],
+  ['Lift and pad the slate', 'Each slab is unscrewed, lifted out and wrapped for the trip.'],
+  ['Move the frame and legs', 'Broken down so it clears stairs and doorways without dings.'],
+  ['Rebuild and level the frame', 'Set square in the new room and leveled before the slate goes on.'],
+  ['Shim, level and seal the slate', 'Checked in both directions and seams filled so the ball rolls true.'],
+  ['Cloth, rails and pockets back on', "Cloth stretched tight, or new cloth if you're refelting during the move."],
+];
+
+const moveTypes = [
+  { name: 'House to house', blurb: 'Full teardown, transport and setup at your new place.', price: formatPrice(prices.move) },
+  { name: 'Room to room', blurb: 'Same house, new room. Basement, garage or game room.', price: formatPrice(prices.roomToRoom) },
+  { name: 'Into or out of storage', blurb: "Taken down and packed for storage, or picked up and set up when you're ready.", price: formatPrice(prices.storage) },
+  { name: 'Bought a used table?', blurb: "We'll pick it up from the seller and set it up in your room.", price: formatPrice(prices.usedPickup) },
+  { name: 'Stairs', blurb: 'Per flight, since slate has to be carried by hand.', price: formatPrice(prices.stairsPerFlight, '+ ') },
+];
+
+// Minimum room = playing surface + 2 × 58″ cue.
+const roomSizes = [
+  ['7 ft', '39″ × 78″', '12′11″ × 16′2″'],
+  ['8 ft', '44″ × 88″', '13′4″ × 17′'],
+  ['8 ft pro', '46″ × 92″', '13′6″ × 17′4″'],
+  ['9 ft', '50″ × 100″', '13′10″ × 18′'],
+];
+
+const title = 'Pool Table Movers in North Olmsted & Cleveland | A&D Billiards';
+const description =
+  'Professional pool table moving: teardown, padded transport, reassembly and slate leveling. Serving North Olmsted, Westlake, Strongsville and Greater Cleveland.';
+---
+
+<Base
+  title={title}
+  description={description}
+  schema={[serviceSchema('Pool table moving', description, Astro.url.href), ...faqSchema(moving)]}
+>
+  <PageHero
+    crumb="Pool table moving"
+    title="Pool table moving in North Olmsted & Greater Cleveland"
+    image={greenLodge}
+    alt="Oak table with green felt set up in a lodge-style room"
+    cta="Quote my move"
+  >
+    Moving across town, down to the basement or out of storage, we take the table apart, move it safely and put it back
+    together level. You get a table that plays like it did before the move, or better.
+  </PageHero>
+
+  <section class="wrap section">
+    <h2 class="h2">What every move includes</h2>
+    <p class="muted intro">No shortcuts like sliding the table on its legs or carrying it in one piece. Here's how we do it.</p>
+    <ol class="ruled steps">
+      {
+        steps.map(([h, p], i) => (
+          <li>
+            <span class="n">{i + 1}</span>
+            <div>
+              <h3 class="h3">{h}</h3>
+              <p>{p}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2 class="h2" style="margin-bottom: 32px">Moves we handle</h2>
+      <PriceBoard rows={moveTypes} />
+    </div>
+  </section>
+
+  <section class="wrap section two">
+    <div id="room-size" class="two__main">
+      <h2 class="h2 h2--sm">Will it fit? Room size guide</h2>
+      <p class="muted small">
+        Minimum room size for a full stroke with standard 58″ cues. Short of that? Shorter cues can work for a wall or two.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th scope="col">Table</th><th scope="col">Playing surface</th><th scope="col">Minimum room</th></tr>
+          </thead>
+          <tbody>
+            {roomSizes.map(([t, s, r]) => (
+              <tr><th scope="row">{t}</th><td>{s}</td><td><strong>{r}</strong></td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <aside class="panel two__side">
+      <h2 class="h2 h2--xs">Before moving day</h2>
+      <ul>
+        <li>Clear the table and a path to the door.</li>
+        <li>Measure doorways and turns on the stairs.</li>
+        <li>Know where you want it. We'll center it under your light.</li>
+        <li>Thinking about new cloth? Do it now. It's cheaper during a move.</li>
+        <li>Text us photos of the table and stairs for an exact quote.</li>
+      </ul>
+    </aside>
+  </section>
+
+  <section class="wrap section narrow">
+    <h2 class="h2" style="margin-bottom: 24px">Moving questions</h2>
+    <FaqList items={moving.slice(0, 5)} />
+    <p class="small"><a href="/faq/">See all questions and our service area</a></p>
+  </section>
+
+  <CtaBand title="Moving soon? Get your table on the calendar." />
+</Base>
+
+<style>
+  .intro {
+    margin: 12px 0 32px;
+    max-width: 40em;
+  }
+  .two {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 64px;
+  }
+  .two__main {
+    flex: 1 1 480px;
+    min-width: 0;
+  }
+  .two__side {
+    flex: 1 1 380px;
+    min-width: 0;
+  }
+  .h2--sm {
+    font-size: clamp(28px, 3.4vw, 40px);
+  }
+  .h2--xs {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+  .two__main p {
+    margin: 12px 0 20px;
+  }
+  .table-scroll {
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-display);
+    font-size: 16px;
+  }
+  thead tr {
+    text-align: left;
+    border-bottom: 2px solid var(--ink);
+  }
+  th,
+  td {
+    padding: 12px 12px 12px 0;
+    text-align: left;
+  }
+  tbody tr {
+    border-bottom: 1px solid var(--rule);
+  }
+  aside ul {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 17px;
+    color: var(--ink-2);
+  }
+  .narrow {
+    max-width: 900px;
+  }
+</style>

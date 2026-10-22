@@ -1,0 +1,220 @@
+---
+import { Image } from 'astro:assets';
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import FaqList from '@/components/FaqList.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import Todo from '@/components/Todo.astro';
+import { prices, formatPrice } from '@/data/site';
+import { cloth } from '@/data/faqs';
+import { faqSchema, serviceSchema } from '@/lib/schema';
+import { markTodos } from '@/lib/todo';
+
+import burgundyFelt from '@/assets/photos/burgundy-felt.jpg';
+import greenLodge from '@/assets/photos/green-lodge.jpg';
+import blueOak from '@/assets/photos/blue-oak.jpg';
+import navyRail from '@/assets/photos/navy-rail.jpg';
+import burgundyOak from '@/assets/photos/burgundy-oak.jpg';
+import grayCherry from '@/assets/photos/gray-cherry.jpg';
+import tanClassic from '@/assets/photos/tan-classic.jpg';
+import blackCarved from '@/assets/photos/black-carved.jpg';
+
+const colors = [
+  { name: 'Classic green', src: greenLodge },
+  { name: 'Electric blue', src: blueOak },
+  { name: 'Navy', src: navyRail },
+  { name: 'Burgundy', src: burgundyOak },
+  { name: 'Gray', src: grayCherry },
+  { name: 'Camel', src: tanClassic },
+  { name: 'Black', src: blackCarved },
+];
+
+const title = 'Pool Table Refelting & Repair near Cleveland | A&D Billiards';
+const description =
+  'Pool table refelting, recushioning, leveling and repair in your home. Standard and tournament cloth in many colors. North Olmsted and Greater Cleveland.';
+---
+
+<Base
+  title={title}
+  description={description}
+  schema={[serviceSchema('Pool table refelting and repair', description, Astro.url.href), ...faqSchema(cloth)]}
+>
+  <PageHero
+    crumb="Refelt & repair"
+    title="Pool table refelting, cushions & repair"
+    image={burgundyFelt}
+    alt="Close-up of fresh burgundy cloth with racked balls"
+    cta="Quote my table"
+  >
+    Worn cloth, dead bumpers or a table that rolls off? Most tables don't need replacing, they need a tune-up. We do the
+    work in your home, usually in a single visit.
+  </PageHero>
+
+  <section class="wrap section">
+    <h2 class="h2">Refelting</h2>
+    <p class="muted intro">
+      New cloth is the biggest upgrade you can give a table. We strip the old cloth and glue, stretch new cloth tight over
+      the slate and rails, and reset the rails so the cushions line up.
+    </p>
+    <div class="cloths">
+      <div class="cloth">
+        <h3 class="h3">Standard cloth</h3>
+        <p class="muted small">Woolen cloth for home tables. Plays well, comes in lots of colors and holds up to family use.</p>
+        <p class="price" set:html={markTodos(formatPrice(prices.refeltStandard) + ' installed')} />
+      </div>
+      <div class="cloth cloth--pro">
+        <h3 class="h3">Tournament cloth</h3>
+        <p class="muted small">
+          Worsted cloth with a tight, fast weave. Truer rolls, less pilling and it lasts longer. <Todo>Confirm brands offered</Todo>
+        </p>
+        <p class="price" set:html={markTodos(formatPrice(prices.refeltTournament) + ' installed')} />
+      </div>
+    </div>
+
+    <h3 class="h3 colors-title">Colors from our recent jobs</h3>
+    <ul class="colors">
+      {
+        colors.map((c) => (
+          <li>
+            <Image src={c.src} alt="" widths={[160, 240]} sizes="160px" />
+            <span>{c.name}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section id="cushions" class="band">
+    <div class="wrap split">
+      <div class="stack">
+        <h2 class="h2">Recushioning</h2>
+        <p class="muted">
+          Cushion rubber dries out and hardens with age. Once it goes, the ball comes off the rail slow and short, and no
+          amount of skill fixes that. New rubber brings the rails back to life.
+        </p>
+        <h3 class="h3 brass">Signs your cushions are done</h3>
+        <ul class="signs">
+          <li>The ball dies off the rail or makes a dull thud</li>
+          <li>Cushions feel hard, cracked or have flat spots</li>
+          <li>Bank shots come up short no matter how you hit them</li>
+          <li>The table is 20+ years old and has original rubber</li>
+        </ul>
+        <p class="price" set:html={markTodos(formatPrice(prices.recushion) + ' for all six rails. Save when done with a refelt.')} />
+      </div>
+      <Image src={tanClassic} alt="Tan cloth table with leather fringe pockets and wood rails" widths={[400, 600]} sizes="(min-width: 900px) 480px, 100vw" class="tall" />
+    </div>
+  </section>
+
+  <section id="leveling" class="wrap section">
+    <h2 class="h2" style="margin-bottom: 32px">Installs, leveling &amp; other repairs</h2>
+    <div class="ruled repairs">
+      <div>
+        <h3 class="h3">New table install</h3>
+        <p class="muted small">Bought a new table that arrived in boxes? We build it, set and level the slate, and cloth it.</p>
+      </div>
+      <div>
+        <h3 class="h3">Re-leveling</h3>
+        <p class="muted small">Floors settle and tables drift. If balls roll toward one end, a re-level fixes it.</p>
+      </div>
+      <div>
+        <h3 class="h3">Pockets</h3>
+        <p class="muted small">Torn leather or ripped nets replaced to match your table's style. <Todo>Confirm</Todo></p>
+      </div>
+      <div>
+        <h3 class="h3">Loose rails &amp; frame</h3>
+        <p class="muted small">Wobbly rails, stripped bolts and loose legs tightened up and squared. <Todo>Confirm</Todo></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section narrow">
+    <h2 class="h2" style="margin-bottom: 24px">Refelt &amp; repair questions</h2>
+    <FaqList items={cloth} />
+    <p class="small"><a href="/faq/">See all questions and our service area</a></p>
+  </section>
+
+  <CtaBand title="Send us a photo. We'll tell you what it needs." />
+</Base>
+
+<style>
+  .intro {
+    margin: 12px 0 32px;
+    max-width: 40em;
+  }
+  .cloths {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+  .cloth {
+    background: var(--paper);
+    border-top: 4px solid var(--felt);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cloth--pro {
+    border-top-color: var(--walnut);
+  }
+  .cloth p {
+    margin: 0;
+  }
+  .colors-title {
+    margin: 48px 0 16px;
+    color: var(--felt);
+  }
+  .colors {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+  }
+  .colors li {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .colors img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+  .brass {
+    color: var(--brass);
+    font-size: 20px;
+    margin-top: 8px;
+  }
+  .signs {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #e6decb;
+  }
+  .band .stack p {
+    margin: 0;
+  }
+  .tall {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+  .repairs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    column-gap: 40px;
+  }
+  .repairs p {
+    margin: 6px 0 0;
+  }
+  .narrow {
+    max-width: 900px;
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+description: Conventions for the A&D Billiards Astro site
+alwaysApply: true
+---
+
+# A&D Billiards site
+
+Static Astro 7 marketing site for a local pool table moving and repair business in North Olmsted, OH. There's no framework UI library and no client-side JS beyond what HTML/CSS can do.
+
+## Where things live
+- Content and business facts: `src/data/site.ts` and `src/data/faqs.ts`. Change copy there before touching markup.
+- Shared design tokens and utility classes: `src/styles/global.css` (`.wrap`, `.section`, `.band`, `.h1/.h2/.h3`, `.btn`, `.ruled`, `.steps`, `.panel`).
+- Page-specific styles go in a scoped `<style>` block in that page or component.
+
+## Design rules
+- Palette: felt green `--felt`, walnut `--walnut`, brass `--brass` (on dark green only), cream `--cream`. Don't add new accent colors.
+- Type: Archivo Variable for display (often `font-stretch: 112%`, weights 700–900), Source Serif 4 for body.
+- Avoid generic "AI template" patterns: no gradient washes, no rounded icon cards, no emoji, no pill buttons. Prefer ruled lists, price-board rows, numbered steps and real photos. Border radius stays at `--radius` (3px).
+- Images: put files in `src/assets/photos/` and render them with `astro:assets` `<Image>` (always meaningful `alt`, or `alt=""` for decorative).
+- Accessibility: real links and buttons, labels on inputs, 44px minimum touch targets, text contrast at least 4.5:1.
+
+## Content rules
+- Never invent facts about the business (prices, years, guarantees, reviews, insurance). Unknowns use `<Todo>…</Todo>` in markup, `null` prices, or `[bracketed]` text in data strings.
+- Each page needs a unique `title` and `description` passed to `Base`.
+- City pages (`/service-area/[city]`) only exist for cities with a real, specific `intro`. Don't mass-generate templated city copy.
+
+## Commands
+`npm run dev`, `npm run build`, `npm run check`, `npm run todos`. Node 22.23.4+.

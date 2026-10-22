@@ -1,0 +1,45 @@
+---
+// One page per city that has a written `intro` in src/data/site.ts.
+// Write a real, specific intro before adding a city: thin templated city
+// pages are what the competitor franchise sites do, and Google discounts them.
+import type { GetStaticPaths } from 'astro';
+import Base from '@/layouts/Base.astro';
+import PriceBoard from '@/components/PriceBoard.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import QuoteForm from '@/components/QuoteForm.astro';
+import { allCities, services } from '@/data/site';
+
+export const getStaticPaths = (() =>
+  allCities
+    .filter((c) => c.intro)
+    .map((c) => ({ params: { city: c.slug }, props: { name: c.name, intro: c.intro! } }))) satisfies GetStaticPaths;
+
+const { name, intro } = Astro.props;
+---
+
+<Base
+  title={`Pool Table Movers & Repair in ${name}, OH | A&D Billiards`}
+  description={`Pool table moving, refelting, recushioning and installation in ${name}, Ohio. Local crew, 15+ years experience. Free quotes: (440) 523-9217.`}
+>
+  <section class="wrap stack intro">
+    <p class="crumbs"><a href="/">Home</a> / <a href="/faq/#area">Service area</a> / {name}</p>
+    <h1 class="h1">Pool table moving &amp; repair in {name}, OH</h1>
+    <p class="lede">{intro}</p>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2 class="h2" style="margin-bottom: 32px">Services in {name}</h2>
+      <PriceBoard rows={services} />
+    </div>
+  </section>
+
+  <QuoteForm />
+  <CtaBand title={`Need a table moved in ${name}?`} action="call" />
+</Base>
+
+<style>
+  .intro {
+    padding-top: 56px;
+  }
+</style>

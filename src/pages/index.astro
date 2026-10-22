@@ -1,0 +1,329 @@
+---
+import { Image } from 'astro:assets';
+import Base from '@/layouts/Base.astro';
+import PriceBoard from '@/components/PriceBoard.astro';
+import QuoteForm from '@/components/QuoteForm.astro';
+import Todo from '@/components/Todo.astro';
+import { business, services, listings } from '@/data/site';
+
+import hero from '@/assets/photos/hero.jpg';
+import blackCarved from '@/assets/photos/black-carved.jpg';
+import gameroom2 from '@/assets/photos/gameroom-2.jpg';
+import greenLodge from '@/assets/photos/green-lodge.jpg';
+import blueOak from '@/assets/photos/blue-oak.jpg';
+import tanClassic from '@/assets/photos/tan-classic.jpg';
+import burgundyFelt from '@/assets/photos/burgundy-felt.jpg';
+import grayCherry from '@/assets/photos/gray-cherry.jpg';
+import navyRail from '@/assets/photos/navy-rail.jpg';
+import gameroom1 from '@/assets/photos/gameroom-1.jpg';
+import blueBlack from '@/assets/photos/blue-black.jpg';
+import burgundyOak from '@/assets/photos/burgundy-oak.jpg';
+import basementGray from '@/assets/photos/basement-gray.jpg';
+
+const gallery = [
+  { src: gameroom2, alt: 'Black table with gray felt in a game room with a graffiti mural' },
+  { src: greenLodge, alt: 'Oak table with green felt in a lodge-style room' },
+  { src: blueOak, alt: 'Oak table with bright blue felt' },
+  { src: tanClassic, alt: 'Classic table with tan felt and leather pockets' },
+  { src: burgundyFelt, alt: 'Racked balls on burgundy felt' },
+  { src: grayCherry, alt: 'Cherry table with gray felt in a basement bar' },
+  { src: navyRail, alt: 'Table with navy felt and oak rails' },
+  { src: gameroom1, alt: 'Black table under pendant lights' },
+  { src: blueBlack, alt: 'Black-rail table with royal blue felt' },
+  { src: burgundyOak, alt: 'Oak table with burgundy felt in a carpeted basement' },
+  { src: basementGray, alt: 'Carved-leg table with gray felt under a hanging lamp' },
+  { src: blackCarved, alt: 'Carved table with black felt' },
+];
+
+const featured = listings.find((l) => l.status === 'in-stock');
+---
+
+<Base
+  title="Pool Table Moving & Repair in North Olmsted, OH | A&D Billiards"
+  description="A&D Billiards moves, refelts, recushions and installs pool tables across North Olmsted and Cleveland's west side. 15+ years experience. Free quotes: (440) 523-9217."
+>
+  <!-- HERO -->
+  <section class="wrap hero">
+    <div class="stack hero__text">
+      <h1 class="h1 hero__title">Pool table moving &amp; repair, done by people who play.</h1>
+      <p class="lede">
+        We move, refelt, recushion and set up pool tables across {business.city} and the west side of Cleveland. Over 15
+        years in the trade, and every table leaves level.
+      </p>
+      <div class="btn-row">
+        <a href="#quote" class="btn">Get a free quote</a>
+        <a href={business.phoneHref} class="btn btn--ghost">{business.phone}</a>
+      </div>
+    </div>
+    <figure class="hero__fig">
+      <Image
+        src={hero}
+        alt="Oak pedestal pool table with green felt, racked and ready, in a showroom garage"
+        widths={[480, 720, 960]}
+        sizes="(min-width: 1000px) 640px, 100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <figcaption>Pedestal table set up and leveled in a collector's garage.</figcaption>
+    </figure>
+  </section>
+
+  <!-- FACTS -->
+  <section class="wrap">
+    <dl class="facts">
+      <div><dt>{business.yearsExperience} years</dt><dd>moving and servicing tables</dd></div>
+      <div><dt>7, 8 &amp; 9 ft</dt><dd>home and bar tables, slate included</dd></div>
+      <div><dt>Local crew</dt><dd>based right here in {business.city}</dd></div>
+      <div><dt>Tables for sale</dt><dd>quality pre-owned, set up in your room</dd></div>
+    </dl>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="band">
+    <div class="wrap">
+      <div class="head-row">
+        <h2 class="h2">Services &amp; starting prices</h2>
+        <p class="muted small">
+          Straight pricing, no surprises. Stairs, distance and table size can change the final number, and we'll tell
+          you before we start.
+        </p>
+      </div>
+      <PriceBoard rows={services} />
+    </div>
+  </section>
+
+  <!-- WHY A PRO -->
+  <section class="wrap section split why">
+    <Image src={blackCarved} alt="Carved dark wood table with black felt and fringe pockets" widths={[400, 600]} sizes="(min-width: 900px) 520px, 100vw" class="why__img" />
+    <div class="stack">
+      <h2 class="h2">A slate table isn't furniture. It's a precision surface.</h2>
+      <p class="muted">
+        A real pool table sits on slate that weighs several hundred pounds, usually in three pieces. Move it wrong and you
+        crack a slab, or you get it back together and every shot rolls off line.
+      </p>
+      <p class="muted">
+        When we set a table we shim each slab, check it with a machinist's level in both directions, and fill the seams so
+        the ball rolls true over them. Then the cloth goes back on tight.
+      </p>
+      <a href="/pool-table-moving/" class="display link-strong">How a move works, step by step</a>
+    </div>
+  </section>
+
+  <!-- FOR SALE -->
+  {
+    featured && (
+      <section class="wrap section">
+        <div class="listing">
+          <div class="photo-placeholder listing__img">
+            <Todo>Listing photo</Todo>
+          </div>
+          <div class="stack listing__body">
+            <p class="eyebrow">In stock now</p>
+            <h2 class="h2">{featured.title}</h2>
+            <p class="muted">{featured.details}</p>
+            <p class="listing__price">{featured.price}</p>
+            <div class="btn-row">
+              <a href="/pool-tables-for-sale/" class="btn">See tables for sale</a>
+              <a href={business.phoneHref} class="btn btn--ghost">Call about this table</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- GALLERY -->
+  <section id="work" class="wrap section">
+    <div class="head-row">
+      <h2 class="h2">Recent tables</h2>
+      <p class="muted small">Basements, game rooms, garages and a lodge or two. Every one racked and leveled before we left.</p>
+    </div>
+    <div class="gallery">
+      {
+        gallery.map((g, i) => (
+          <Image
+            src={g.src}
+            alt={g.alt}
+            widths={i === 0 ? [360, 520] : [200, 300]}
+            sizes={i === 0 ? '(min-width: 900px) 400px, 100vw' : '(min-width: 900px) 200px, 50vw'}
+            class={i === 0 ? 'big' : undefined}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="wrap section">
+    <h2 class="h2" style="margin-bottom: 28px">What customers say</h2>
+    <div class="reviews">
+      {
+        [1, 2, 3].map(() => (
+          <blockquote>
+            <p>
+              “<Todo>Customer review from Google or Facebook</Todo>”
+            </p>
+            <footer>
+              <Todo>Name, City</Todo>
+            </footer>
+          </blockquote>
+        ))
+      }
+    </div>
+  </section>
+
+  <QuoteForm />
+</Base>
+
+<style>
+  .hero {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    align-items: flex-end;
+    padding-top: 56px;
+  }
+  .hero__text {
+    flex: 1 1 460px;
+    min-width: 0;
+    gap: 24px;
+    padding-bottom: 8px;
+  }
+  .hero__title {
+    font-size: clamp(44px, 6.4vw, 80px);
+    line-height: 0.96;
+  }
+  .hero__fig {
+    flex: 1.2 1 520px;
+    min-width: 0;
+    margin: 0;
+  }
+  .hero__fig img {
+    width: 100%;
+    aspect-ratio: 954 / 729;
+    object-fit: cover;
+  }
+  figcaption {
+    padding-top: 8px;
+    font-size: 14px;
+    font-style: italic;
+    color: #6e665a;
+  }
+
+  .facts {
+    margin: 40px 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+  }
+  .facts div {
+    padding: 18px 20px 18px 0;
+  }
+  .facts dt {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--felt);
+  }
+  .facts dd {
+    margin: 0;
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  .head-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px 40px;
+    margin-bottom: 32px;
+  }
+  .head-row p {
+    margin: 0;
+    max-width: 28em;
+  }
+
+  .why__img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+  .link-strong {
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .listing {
+    border: 2px solid var(--ink);
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .listing__img {
+    flex: 1 1 420px;
+    min-height: 300px;
+  }
+  .listing__body {
+    flex: 1 1 420px;
+    min-width: 0;
+    padding: 40px;
+    gap: 14px;
+  }
+  .listing__body p {
+    margin: 0;
+  }
+  .eyebrow {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--walnut);
+  }
+  .listing__price {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 40px;
+    line-height: 1;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 8px;
+  }
+  .gallery img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+  .gallery .big {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .reviews {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    column-gap: 40px;
+    border-top: 2px solid var(--ink);
+  }
+  blockquote {
+    margin: 0;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  blockquote p {
+    margin: 0 0 12px;
+    font-size: 20px;
+    font-style: italic;
+  }
+  blockquote footer {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+</style>

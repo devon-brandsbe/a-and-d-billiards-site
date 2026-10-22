@@ -1,0 +1,124 @@
+---
+import { business } from '@/data/site';
+import Todo from './Todo.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap cols">
+    <div class="col">
+      <span class="brand">
+        <span class="brand__mark">A&amp;D</span>
+        <span class="brand__sub">BILLIARDS LLC</span>
+      </span>
+      <p>
+        Professional pool table moving and repair with over {business.yearsExperience.replace('+', '')} years of
+        experience. Based in {business.city}, Ohio.
+      </p>
+    </div>
+    <nav aria-label="Services" class="col">
+      <h2>Services</h2>
+      <a href="/pool-table-moving/">Pool table moving</a>
+      <a href="/refelting-repair/">Refelting</a>
+      <a href="/refelting-repair/#cushions">Recushioning</a>
+      <a href="/refelting-repair/#leveling">Install &amp; leveling</a>
+      <a href="/pool-tables-for-sale/">Tables for sale</a>
+    </nav>
+    <nav aria-label="Service area" class="col">
+      <h2>Service area</h2>
+      <a href="/service-area/north-olmsted/">North Olmsted</a>
+      <a href="/faq/#area">Westlake &amp; Bay Village</a>
+      <a href="/faq/#area">Rocky River &amp; Lakewood</a>
+      <a href="/faq/#area">Strongsville &amp; Parma</a>
+      <a href="/faq/#area">All areas we serve</a>
+    </nav>
+    <div class="col">
+      <h2>Contact</h2>
+      <a href={business.phoneHref} class="phone">{business.phone}</a>
+      <a href={`mailto:${business.email}`} class="email">{business.email}</a>
+      <span>{business.city}, {business.region} {business.postalCode}</span>
+      <a href={business.facebook}>Facebook</a>
+    </div>
+  </div>
+  <div class="wrap legal">
+    <span>© {year} {business.name}</span>
+    <span>{business.insured || <Todo>Licensed &amp; insured: confirm</Todo>}</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--felt-deep);
+    color: var(--on-felt-muted);
+    font-size: 16px;
+  }
+  .site-footer a {
+    color: #e6decb;
+  }
+  .site-footer a:hover {
+    color: #fff;
+  }
+  .cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    padding-block: 64px 40px;
+  }
+  .col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .col p {
+    margin: 6px 0 0;
+  }
+  h2 {
+    margin: 0 0 6px;
+    font-stretch: 112%;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brass);
+  }
+  .brand {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    font-family: var(--font-display);
+    color: var(--cream);
+  }
+  .brand__mark {
+    font-weight: 900;
+    font-stretch: 125%;
+    font-size: 30px;
+  }
+  .brand__sub {
+    font-weight: 700;
+    font-stretch: 125%;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    color: var(--brass);
+    padding-top: 3px;
+  }
+  .phone {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 22px;
+    text-decoration: none;
+    color: var(--cream) !important;
+  }
+  .email {
+    overflow-wrap: anywhere;
+  }
+  .legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    padding-block: 18px 28px;
+    border-top: 1px solid #24483b;
+    font-size: 14px;
+    color: #a9a08c;
+  }
+</style>

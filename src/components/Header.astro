@@ -1,0 +1,114 @@
+---
+import { business, nav } from '@/data/site';
+import Todo from './Todo.astro';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => path.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="topbar">
+    <div class="wrap topbar__inner">
+      <span>{business.tagline} · {business.city}, {business.region}</span>
+      <span>
+        Call or text <a href={business.phoneHref}>{business.phone}</a>
+        · {business.hours || <Todo>Hours</Todo>}
+      </span>
+    </div>
+  </div>
+  <div class="wrap bar">
+    <a href="/" class="brand" aria-label={`${business.shortName} home`}>
+      <span class="brand__mark">A&amp;D</span>
+      <span class="brand__sub">BILLIARDS LLC</span>
+    </a>
+    <nav aria-label="Main" class="nav">
+      {
+        nav.map((item) => (
+          <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+      <a href="/#quote" class="btn nav__cta">Free quote</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    font-family: var(--font-display);
+    border-bottom: 1px solid var(--rule);
+  }
+  .topbar {
+    background: var(--felt-deep);
+    color: #e6decb;
+    font-size: 13px;
+  }
+  .topbar__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 24px;
+    padding-block: 8px;
+  }
+  .topbar a {
+    color: var(--cream);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px 32px;
+    padding-block: 16px;
+  }
+  .brand {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    text-decoration: none;
+    color: var(--felt);
+  }
+  .brand__mark {
+    font-weight: 900;
+    font-stretch: 125%;
+    font-size: 34px;
+    letter-spacing: -0.01em;
+  }
+  .brand__sub {
+    font-weight: 700;
+    font-stretch: 125%;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    color: var(--walnut);
+    padding-top: 3px;
+  }
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 6px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .nav a:not(.btn) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 10px;
+    text-decoration: none;
+    color: var(--ink-2);
+  }
+  .nav a[aria-current='page'] {
+    color: var(--felt);
+    box-shadow: inset 0 -3px 0 var(--walnut);
+  }
+  .nav__cta {
+    min-height: 44px;
+    padding: 0 18px;
+    margin-left: 8px;
+    font-size: 14px;
+  }
+</style>

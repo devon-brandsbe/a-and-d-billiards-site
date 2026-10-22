@@ -1,0 +1,142 @@
+---
+import Base from '@/layouts/Base.astro';
+import FaqList from '@/components/FaqList.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import Todo from '@/components/Todo.astro';
+import { faqGroups } from '@/data/faqs';
+import { serviceArea } from '@/data/site';
+import { faqSchema } from '@/lib/schema';
+
+const allFaqs = faqGroups.flatMap((g) => g.items);
+---
+
+<Base
+  title="Pool Table FAQ & Service Area | A&D Billiards, North Olmsted OH"
+  description="Answers on pool table moving costs, refelting, cushions, room sizes and buying a used table. Serving North Olmsted, Westlake, Strongsville, Avon and Greater Cleveland."
+  schema={faqSchema(allFaqs)}
+>
+  <section class="wrap stack intro">
+    <p class="crumbs"><a href="/">Home</a> / FAQ &amp; service area</p>
+    <h1 class="h1">Pool table questions, answered straight</h1>
+    <p class="lede">
+      The things people ask us most about moving, refelting and buying a table. Don't see yours? Call or text and ask.
+    </p>
+  </section>
+
+  <section class="wrap layout">
+    <nav aria-label="Topics" class="toc">
+      {faqGroups.map((g) => <a href={`#${g.id}`}>{g.title}</a>)}
+      <a href="#area">Service area</a>
+    </nav>
+    <div class="groups">
+      {
+        faqGroups.map((g) => (
+          <div id={g.id}>
+            <h2 class="h2 group-title">{g.title}</h2>
+            <FaqList items={g.items} />
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="area" class="band">
+    <div class="wrap">
+      <div class="area-head">
+        <h2 class="h2">Where we work</h2>
+        <p class="muted small">
+          Based in North Olmsted, serving Cleveland's west side and beyond. Not on the list? Ask, we probably go there.
+          <Todo>Confirm area</Todo>
+        </p>
+      </div>
+      <div class="area">
+        {
+          serviceArea.map((g) => (
+            <div>
+              <h3 class="h3 area__group">{g.group}</h3>
+              <ul>
+                {g.cities.map((c) => (
+                  <li>{c.intro ? <a href={`/service-area/${c.slug}/`}>{c.name}</a> : c.name}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Still have a question? Just ask." action="call" />
+</Base>
+
+<style>
+  .intro {
+    padding-top: 56px;
+  }
+  .intro .h1 {
+    max-width: 14em;
+  }
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    padding-block: 56px 24px;
+  }
+  .toc {
+    flex: 0 1 220px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .groups {
+    flex: 999 1 560px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+  .group-title {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+  .area-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px 40px;
+    margin-bottom: 36px;
+  }
+  .area-head p {
+    margin: 0;
+    max-width: 28em;
+  }
+  .area {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 32px;
+    border-top: 1px solid var(--brass);
+    padding-top: 28px;
+  }
+  .area__group {
+    color: var(--brass);
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  .area ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #e6decb;
+  }
+  .area a {
+    color: var(--on-felt);
+  }
+</style>

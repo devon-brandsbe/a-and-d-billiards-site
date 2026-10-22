@@ -1,0 +1,28 @@
+{
+  "name": "ad-billiards",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Marketing site for A&D Billiards LLC, North Olmsted, OH",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "todos": "grep -rn \"<Todo\" src --include=*.astro; grep -rn \"TODO\" src/data",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.4",
+    "@fontsource-variable/archivo": "^5.3.0",
+    "@fontsource-variable/source-serif-4": "^5.3.1",
+    "astro": "7.4.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "typescript": "^6.0.3"
+  }
+}

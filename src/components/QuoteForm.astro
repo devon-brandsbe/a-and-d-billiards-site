@@ -1,0 +1,177 @@
+---
+import { business } from '@/data/site';
+
+// Point PUBLIC_FORM_ENDPOINT at Formspree, Web3Forms, Basin, etc.
+// Without it the form falls back to opening the visitor's email app.
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT;
+const action = endpoint || `mailto:${business.email}?subject=Quote request`;
+const enctype = endpoint ? undefined : 'text/plain';
+
+const services = ['Move', 'Refelt', 'Recushion', 'Build / install', 'Buy a table'];
+---
+
+<section id="quote" class="wrap quote">
+  <div class="stack quote__intro">
+    <h2 class="h2">Get a free quote</h2>
+    <p class="muted">
+      Tell us the table size, what it needs and where it's going. A photo of the table and the stairs helps us quote it
+      right the first time.
+    </p>
+    <p class="quote__direct small muted">
+      Rather talk?<br />
+      <a href={business.phoneHref} class="quote__phone">{business.phone}</a><br />
+      <a href={`mailto:${business.email}`}>{business.email}</a>
+    </p>
+  </div>
+
+  <form class="form" method="post" action={action} enctype={enctype}>
+    <input type="hidden" name="_subject" value="New quote request from website" />
+    <p class="visually-hidden" aria-hidden="true">
+      <label>Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+    </p>
+
+    <fieldset>
+      <legend>What do you need?</legend>
+      <div class="pills">
+        {
+          services.map((s, i) => (
+            <label class="pill">
+              <input type="checkbox" name="service" value={s} checked={i === 0} />
+              <span>{s}</span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+
+    <div class="grid">
+      <label>Name <input type="text" name="name" autocomplete="name" required /></label>
+      <label>Phone <input type="tel" name="phone" autocomplete="tel" required /></label>
+      <label>
+        Table size
+        <select name="size">
+          <option>Not sure</option>
+          <option>7 ft</option>
+          <option>8 ft</option>
+          <option>9 ft</option>
+        </select>
+      </label>
+      <label>City or zip <input type="text" name="location" autocomplete="postal-code" /></label>
+    </div>
+    <label>
+      Details (stairs, moving from/to, felt color)
+      <textarea name="details" rows="4"></textarea>
+    </label>
+    <button type="submit" class="btn">Request my quote</button>
+  </form>
+</section>
+
+<style>
+  .quote {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 56px;
+    padding-block: 96px 112px;
+  }
+  .quote__intro {
+    flex: 1 1 320px;
+    min-width: 0;
+  }
+  .quote__intro p {
+    margin: 0;
+  }
+  .quote__direct {
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
+  }
+  .quote__phone {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 28px;
+    text-decoration: none;
+    color: var(--felt);
+  }
+  .form {
+    flex: 1.6 1 480px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    font-family: var(--font-display);
+  }
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  legend {
+    padding: 0 0 10px;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .pill {
+    position: relative;
+  }
+  .pill input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+  }
+  .pill span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 2px solid #b9ad96;
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .pill input:checked + span {
+    background: var(--felt);
+    border-color: var(--felt);
+    color: var(--on-felt);
+  }
+  .pill input:focus-visible + span {
+    outline: 3px solid var(--brass);
+    outline-offset: 2px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+  }
+  .form > label,
+  .grid label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  input:not([type='checkbox']),
+  select,
+  textarea {
+    min-height: 48px;
+    padding: 0 12px;
+    border: 0;
+    border-bottom: 2px solid var(--ink);
+    border-radius: 0;
+    background: var(--paper);
+    font: 400 17px var(--font-body);
+    color: var(--ink);
+  }
+  textarea {
+    padding: 12px;
+    resize: vertical;
+  }
+  .form .btn {
+    align-self: flex-start;
+  }
+</style>

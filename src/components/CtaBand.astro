@@ -1,0 +1,49 @@
+---
+import { business } from '@/data/site';
+
+interface Props {
+  title: string;
+  text?: string;
+  /** 'quote' links to the form, 'call' dials the phone */
+  action?: 'quote' | 'call';
+}
+const { title, text, action = 'quote' } = Astro.props;
+---
+
+<section class="wrap cta">
+  <div class="cta__inner">
+    <div>
+      <h2 class="h2 cta__title">{title}</h2>
+      {text && <p class="muted">{text}</p>}
+    </div>
+    {
+      action === 'quote' ? (
+        <a href="/#quote" class="btn">Get a free quote</a>
+      ) : (
+        <a href={business.phoneHref} class="btn">Call or text {business.phone}</a>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .cta {
+    padding-block: 88px 112px;
+  }
+  .cta__inner {
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding-block: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  .cta__title {
+    font-size: clamp(28px, 3.4vw, 40px);
+  }
+  .cta p {
+    margin: 6px 0 0;
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+import { markTodos } from '@/lib/todo';
+
+interface Row {
+  name: string;
+  blurb: string;
+  price: string;
+  href?: string;
+}
+interface Props {
+  rows: Row[];
+  headingLevel?: 'h3' | 'h4';
+}
+const { rows, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+---
+
+<ul class="ruled board">
+  {
+    rows.map((r) => (
+      <li>
+        <H class="board__name">{r.name}</H>
+        <p class="board__blurb muted">{r.blurb}</p>
+        <p class="price" set:html={markTodos(r.price)} />
+        {r.href && (
+          <a href={r.href} class="board__link">
+            Details<span class="visually-hidden"> on {r.name.toLowerCase()}</span>
+          </a>
+        )}
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .board li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 32px;
+    padding-block: 26px;
+  }
+  .board__name {
+    flex: 0 0 280px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 1.2;
+  }
+  .board__blurb {
+    flex: 1 1 320px;
+    margin: 0;
+    font-size: 17px;
+  }
+  .board__link {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--on-felt);
+  }
+</style>

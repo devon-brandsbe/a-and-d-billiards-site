@@ -1,0 +1,41 @@
+---
+import type { Faq } from '@/data/faqs';
+import { markTodos } from '@/lib/todo';
+
+interface Props {
+  items: Faq[];
+}
+const { items } = Astro.props;
+---
+
+<div class="faq">
+  {
+    items.map((f) => (
+      <details>
+        <summary>{f.q}</summary>
+        <div class="faq__a" set:html={markTodos(f.a)} />
+      </details>
+    ))
+  }
+</div>
+
+<style>
+  .faq {
+    border-top: 2px solid var(--ink);
+  }
+  details {
+    border-bottom: 1px solid var(--rule);
+    padding-block: 18px;
+  }
+  summary {
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 19px;
+    list-style-position: outside;
+  }
+  .faq__a {
+    margin-top: 12px;
+    color: #4a443b;
+  }
+</style>

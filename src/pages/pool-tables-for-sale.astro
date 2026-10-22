@@ -1,0 +1,147 @@
+---
+import Base from '@/layouts/Base.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import Todo from '@/components/Todo.astro';
+import { listings } from '@/data/site';
+---
+
+<Base
+  title="Used Pool Tables for Sale near Cleveland, OH | A&D Billiards"
+  description="Pre-owned slate pool tables for sale in North Olmsted, checked over and set up in your room by A&D Billiards. Call or text (440) 523-9217."
+>
+  <section class="wrap stack intro">
+    <p class="crumbs"><a href="/">Home</a> / Tables for sale</p>
+    <h1 class="h1">Pre-owned pool tables for sale near Cleveland</h1>
+    <p class="lede">
+      Real slate tables we've checked over, set up and leveled in your room by the same people who sold it to you. Stock
+      changes fast, so call or text if something catches your eye.
+    </p>
+  </section>
+
+  <section class="wrap listings">
+    {
+      listings.map((l) => (
+        <article class="card">
+          <div class="photo-placeholder card__img">
+            <Todo>Listing photo</Todo>
+          </div>
+          <div class="card__head">
+            <h2 class="h3">{l.title}</h2>
+            <p class="card__price">{l.price}</p>
+          </div>
+          <p class="muted small">
+            {l.details} <Todo>Slate, cloth color, condition</Todo>
+          </p>
+          <p class:list={['status', l.status]}>{l.status === 'sold' ? 'Sold' : 'In stock'}</p>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="band">
+    <div class="wrap two">
+      <div class="stack two__intro">
+        <h2 class="h2">Why buy from a table mechanic</h2>
+        <p class="muted">
+          A used table from a stranger online still has to be torn down, moved and set back up right. Buy from us and
+          that's already handled by the people who know the table best.
+        </p>
+      </div>
+      <ol class="ruled steps two__steps">
+        <li>
+          <span class="n">1</span>
+          <div>
+            <h3 class="h3">Checked before it's listed</h3>
+            <p>Slate, frame, rails and cushions looked over. <Todo>Confirm what's inspected</Todo></p>
+          </div>
+        </li>
+        <li>
+          <span class="n">2</span>
+          <div>
+            <h3 class="h3">Delivered and installed</h3>
+            <p>Set up and leveled in your room. <Todo>Confirm: included in price or added</Todo></p>
+          </div>
+        </li>
+        <li>
+          <span class="n">3</span>
+          <div>
+            <h3 class="h3">Pick your cloth</h3>
+            <p>Want a different color? We can refelt it before it goes in.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Looking for something specific?"
+    text="Tell us the size, style and budget. We'll let you know when one comes in."
+    action="call"
+  />
+</Base>
+
+<style>
+  .intro {
+    padding-top: 56px;
+  }
+  .intro .h1 {
+    max-width: 14em;
+  }
+  .listings {
+    padding-block: 56px 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 32px;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .card p {
+    margin: 0;
+  }
+  .card__img {
+    aspect-ratio: 4 / 3;
+  }
+  .card__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .card__price {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 24px;
+  }
+  .status {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--felt);
+  }
+  .status.sold {
+    color: var(--walnut);
+  }
+  .two {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 56px;
+  }
+  .two__intro {
+    flex: 1 1 360px;
+    min-width: 0;
+  }
+  .two__intro p {
+    margin: 0;
+  }
+  .two__steps {
+    flex: 1.3 1 440px;
+    min-width: 0;
+    display: block;
+  }
+</style>
