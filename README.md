@@ -77,42 +77,36 @@ The form posts to `PUBLIC_FORM_ENDPOINT`, which can be any hosted form backend (
 
 ## Deploying (GitHub → EC2)
 
-`.github/workflows/deploy.yml` runs on every push and PR:
+`.github/workflows/deploy.yml` runs on every push and pull request:
 
-1. **build**: `npm ci`, `astro check`, then `astro build`, uploading `dist/` as an artifact.
-2. **deploy** (pushes to `main` only, and only when enabled): rsyncs the build to `releases/<timestamp>` on the server, atomically points `current` at it, and keeps the last 5 releases for rollback.
+1. **build** (GitHub-hosted): `npm ci`, `astro check`, then `astro build`. `SITE_URL` and `PUBLIC_FORM_ENDPOINT` come from Actions variables. The build is uploaded as an artifact.
+2. **deploy** (pushes to `main` only): the self-hosted runner on `ec2-scailable` copies that artifact to `/var/www/adbilliards/releases/<timestamp>`, points `current` at it, and keeps the last 5 releases.
 
-### One-time setup
+nginx on that box already serves https://ad-billiards.brandsbe.com from `/var/www/adbilliards/current`, with `noindex` while this host is temporary.
 
-**On the EC2 instance:**
+### Actions variables
+
+| Name | Value |
+| --- | --- |
+| `SITE_URL` | `https://ad-billiards.brandsbe.com` (canonical URLs, Open Graph, sitemap) |
+| `PUBLIC_FORM_ENDPOINT` | form backend URL (optional; the quote form uses `mailto:` until this is set) |
+
+### Runner
+
+Registered to this repo as user `deploy`, name `adbilliards-ec2`, label `adbilliards`. The unit is `actions.runner.devon-brandsbe-a-and-d-billiards-site.adbilliards-ec2.service`.
+
+To register it again, from a fresh runner directory on the server (config must not run as root):
 
 ```bash
-APP_DIR=/var/www/adbilliards DEPLOY_USER=ubuntu bash deploy/ec2-setup.sh
-sudo cp deploy/nginx.conf.example /etc/nginx/sites-available/adbilliards   # edit server_name
-sudo ln -s /etc/nginx/sites-available/adbilliards /etc/nginx/sites-enabled/
-sudo nginx -t && sudo systemctl reload nginx
+# token: gh api -X POST repos/devon-brandsbe/a-and-d-billiards-site/actions/runners/registration-token --jq .token
+./config.sh --unattended \
+  --url https://github.com/devon-brandsbe/a-and-d-billiards-site \
+  --token <token> \
+  --name adbilliards-ec2 \
+  --labels adbilliards
+sudo ./svc.sh install deploy
+sudo ./svc.sh start
 ```
-
-**Create a deploy key** (on your machine, no passphrase):
-
-```bash
-ssh-keygen -t ed25519 -f ad-deploy -C "github-actions-adbilliards" -N ""
-# then append ad-deploy.pub to ~ubuntu/.ssh/authorized_keys on the server
-```
-
-**In GitHub**, under Settings → Secrets and variables → Actions:
-
-| Type | Name | Value |
-| --- | --- | --- |
-| Secret | `EC2_HOST` | server IP or hostname |
-| Secret | `EC2_USER` | e.g. `ubuntu` |
-| Secret | `EC2_SSH_KEY` | contents of the private key `ad-deploy` |
-| Secret | `EC2_PATH` | e.g. `/var/www/adbilliards` |
-| Variable | `DEPLOY_ENABLED` | `true` (deploys are skipped until this is set) |
-| Variable | `SITE_URL` | e.g. `https://adbilliards.example.com` |
-| Variable | `PUBLIC_FORM_ENDPOINT` | form backend URL (optional) |
-
-The EC2 security group needs to allow SSH (port 22) from GitHub Actions runners. If your SSH is locked down to known IPs, open it for deploys or switch to a self-hosted runner.
 
 **Rollback:** `ln -sfn /var/www/adbilliards/releases/<older-release> /var/www/adbilliards/current`
 

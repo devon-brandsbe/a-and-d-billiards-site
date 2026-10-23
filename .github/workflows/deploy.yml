@@ -1,4 +1,4 @@
-name: Build & deploy
+name: Build and deploy to EC2
 
 on:
   push:
@@ -37,11 +37,10 @@ jobs:
           retention-days: 7
 
   deploy:
-    # Runs only on main, and only after you set the repo variable DEPLOY_ENABLED=true
-    # (Settings > Secrets and variables > Actions > Variables).
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.DEPLOY_ENABLED == 'true'
+    # Pull requests only build. Pushes to main publish through the runner on ec2-scailable.
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, adbilliards]
     environment: production
     steps:
       - uses: actions/download-artifact@v4
@@ -49,25 +48,22 @@ jobs:
           name: dist
           path: dist
 
-      - name: Set up SSH
+      - name: Install release and switch symlink
         env:
-          SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-          HOST: ${{ secrets.EC2_HOST }}
+          ROOT: /var/www/adbilliards
         run: |
-          mkdir -p ~/.ssh
-          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts
+          RELEASE="$ROOT/releases/$(date -u +%Y%m%d%H%M%S)-${GITHUB_SHA::7}"
+          mkdir -p "$RELEASE"
+          rsync -a --delete dist/ "$RELEASE/"
+          # Atomic switch, then keep the 5 newest releases for quick rollback.
+          # Sort by name (UTC timestamp prefix): rsync -a copies the artifact's
+          # mtime onto the folder, so mtime order isn't deploy order.
+          ln -sfn "$RELEASE" "$ROOT/current.tmp"
+          mv -T "$ROOT/current.tmp" "$ROOT/current"
+          ls -1d "$ROOT"/releases/* | sort -r | tail -n +6 | xargs -r rm -rf
 
-      - name: Upload release and switch symlink
+      - name: Smoke test
         env:
-          HOST: ${{ secrets.EC2_HOST }}
-          USER: ${{ secrets.EC2_USER }}
-          APP_DIR: ${{ secrets.EC2_PATH }}
-        run: |
-          RELEASE="$APP_DIR/releases/$(date +%Y%m%d%H%M%S)-${GITHUB_SHA::7}"
-          SSH="ssh -i $HOME/.ssh/deploy_key -o StrictHostKeyChecking=yes"
-          $SSH "$USER@$HOST" "mkdir -p '$RELEASE'"
-          rsync -az --delete -e "$SSH" dist/ "$USER@$HOST:$RELEASE/"
-          # Atomic switch, then keep the 5 newest releases for quick rollback
-          $SSH "$USER@$HOST" "ln -sfn '$RELEASE' '$APP_DIR/current' && cd '$APP_DIR/releases' && ls -1t | tail -n +6 | xargs -r rm -rf"
+          SITE_URL: ${{ vars.SITE_URL }}
+        if: env.SITE_URL != ''
+        run: curl -fsS -o /dev/null -w "%{http_code}\n" "$SITE_URL"
