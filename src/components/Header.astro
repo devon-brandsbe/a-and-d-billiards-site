@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import { business, nav } from '@/data/site';
 import Todo from './Todo.astro';
+import logo from '@/assets/photos/logo.png';
 
 const path = Astro.url.pathname;
 const isActive = (href: string) => path.startsWith(href);
@@ -18,8 +20,7 @@ const isActive = (href: string) => path.startsWith(href);
   </div>
   <div class="wrap bar">
     <a href="/" class="brand" aria-label={`${business.shortName} home`}>
-      <span class="brand__mark">A&amp;D</span>
-      <span class="brand__sub">BILLIARDS LLC</span>
+      <Image src={logo} alt="" width={360} loading="eager" />
     </a>
     <nav aria-label="Main" class="nav">
       {
@@ -65,25 +66,13 @@ const isActive = (href: string) => path.startsWith(href);
     padding-block: 16px;
   }
   .brand {
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-    text-decoration: none;
-    color: var(--felt);
+    display: block;
+    flex: 0 0 auto;
+    line-height: 0;
   }
-  .brand__mark {
-    font-weight: 900;
-    font-stretch: 125%;
-    font-size: 34px;
-    letter-spacing: -0.01em;
-  }
-  .brand__sub {
-    font-weight: 700;
-    font-stretch: 125%;
-    font-size: 11px;
-    letter-spacing: 0.32em;
-    color: var(--walnut);
-    padding-top: 3px;
+  .brand img {
+    width: 168px;
+    height: auto;
   }
   .nav {
     display: flex;

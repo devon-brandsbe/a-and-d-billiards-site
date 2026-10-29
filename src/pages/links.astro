@@ -1,0 +1,110 @@
+---
+import { Image } from 'astro:assets';
+import Base from '@/layouts/Base.astro';
+import { business } from '@/data/site';
+import logo from '@/assets/photos/logo.png';
+
+const reviews = [
+  { label: 'Google', href: business.google },
+  { label: 'Yelp', href: business.yelp },
+  { label: 'Facebook', href: `${business.facebook}/reviews` },
+];
+---
+
+<Base
+  title="Links | A&D Billiards"
+  description="Reviews for A&D Billiards on Google, Yelp, and Facebook."
+  bare
+>
+  <section class="links">
+    <a href="/" class="brand" aria-label={`${business.shortName} home`}>
+      <Image src={logo} alt="" width={640} loading="eager" />
+    </a>
+
+    <div class="group">
+      <h1>Reviews</h1>
+      <ul>
+        {
+          reviews.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .links {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 48px var(--gutter);
+    background: var(--felt);
+    color: var(--cream);
+  }
+  .brand {
+    display: block;
+    line-height: 0;
+    width: min(100%, 340px);
+    background: var(--cream);
+    padding: 16px 18px;
+    border-radius: var(--radius);
+  }
+  .brand img {
+    width: 100%;
+    height: auto;
+  }
+  .group {
+    width: min(100%, 360px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  h1 {
+    margin: 0;
+    font-weight: 800;
+    font-stretch: 112%;
+    font-size: 15px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--brass);
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 24px;
+    border: 2px solid var(--cream);
+    border-radius: var(--radius);
+    background: var(--cream);
+    color: var(--felt);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 112%;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  li a:hover {
+    background: var(--brass);
+    border-color: var(--brass);
+    color: var(--felt-deep);
+  }
+</style>

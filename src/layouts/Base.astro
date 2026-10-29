@@ -11,9 +11,11 @@ interface Props {
   /** Extra JSON-LD objects for this page (e.g. FAQPage, Service). */
   schema?: Record<string, unknown>[];
   noindex?: boolean;
+  /** Skip the site header and footer. Used by the standalone /links page. */
+  bare?: boolean;
 }
 
-const { title, description, schema = [], noindex = false } = Astro.props;
+const { title, description, schema = [], noindex = false, bare = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(heroPhoto.src, Astro.site);
 
@@ -35,7 +37,7 @@ const localBusiness = {
     addressCountry: 'US',
   },
   areaServed: allCities.map((c) => ({ '@type': 'City', name: `${c.name}, OH` })),
-  sameAs: [business.facebook],
+  sameAs: [business.facebook, business.google, business.yelp],
 };
 
 const jsonLd = [localBusiness, ...schema];
@@ -64,13 +66,13 @@ const jsonLd = [localBusiness, ...schema];
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
-  <body>
+  <body class:list={{ 'is-bare': bare }}>
     <a href="#main" class="skip">Skip to content</a>
-    <Header />
+    {!bare && <Header />}
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    {!bare && <Footer />}
   </body>
 </html>
 
@@ -88,5 +90,8 @@ const jsonLd = [localBusiness, ...schema];
   }
   .skip:focus {
     top: 8px;
+  }
+  body.is-bare {
+    background: var(--felt);
   }
 </style>

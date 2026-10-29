@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import { business } from '@/data/site';
 import Todo from './Todo.astro';
+import logo from '@/assets/photos/logo.png';
 
 const year = new Date().getFullYear();
 ---
@@ -8,10 +10,7 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="wrap cols">
     <div class="col">
-      <span class="brand">
-        <span class="brand__mark">A&amp;D</span>
-        <span class="brand__sub">BILLIARDS LLC</span>
-      </span>
+      <Image class="brand" src={logo} alt={business.name} width={400} />
       <p>
         Professional pool table moving and repair with over {business.yearsExperience.replace('+', '')} years of
         experience. Based in {business.city}, Ohio.
@@ -82,24 +81,12 @@ const year = new Date().getFullYear();
     color: var(--brass);
   }
   .brand {
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-    font-family: var(--font-display);
-    color: var(--cream);
-  }
-  .brand__mark {
-    font-weight: 900;
-    font-stretch: 125%;
-    font-size: 30px;
-  }
-  .brand__sub {
-    font-weight: 700;
-    font-stretch: 125%;
-    font-size: 10px;
-    letter-spacing: 0.32em;
-    color: var(--brass);
-    padding-top: 3px;
+    width: 200px;
+    height: auto;
+    background: var(--cream);
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    box-sizing: content-box;
   }
   .phone {
     font-family: var(--font-display);

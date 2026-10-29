@@ -12,6 +12,9 @@ export const business = {
   region: 'OH',
   postalCode: '44070',
   facebook: 'https://www.facebook.com/adbilliardsllc',
+  /** Google Business Profile. Maps CID for A&D Billiards LLC. */
+  google: 'https://www.google.com/maps?cid=18219045909584178062',
+  yelp: 'https://m.yelp.com/biz/a-and-d-billiards-north-olmsted?rg=1',
   yearsExperience: '15+',
   hours: '', // TODO: e.g. 'Mon–Sat 8am–6pm'
   insured: '', // TODO: e.g. 'Licensed & insured'
