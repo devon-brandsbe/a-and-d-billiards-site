@@ -4,15 +4,15 @@ import FaqList from '@/components/FaqList.astro';
 import CtaBand from '@/components/CtaBand.astro';
 import Todo from '@/components/Todo.astro';
 import { faqGroups } from '@/data/faqs';
-import { serviceArea } from '@/data/site';
+import { business, serviceArea } from '@/data/site';
 import { faqSchema } from '@/lib/schema';
 
 const allFaqs = faqGroups.flatMap((g) => g.items);
 ---
 
 <Base
-  title="Pool Table FAQ & Service Area | A&D Billiards, North Olmsted OH"
-  description="Answers on pool table moving costs, refelting, cushions, room sizes and buying a used table. Serving North Olmsted, Westlake, Strongsville, Avon and Greater Cleveland."
+  title="Pool Table FAQ & Service Area | A&D Billiards, Cleveland OH"
+  description="Answers on pool table moving costs, refelting, cushions, room sizes and buying a used table. Serving Cleveland and neighboring areas."
   schema={faqSchema(allFaqs)}
 >
   <section class="wrap stack intro">
@@ -45,7 +45,7 @@ const allFaqs = faqGroups.flatMap((g) => g.items);
       <div class="area-head">
         <h2 class="h2">Where we work</h2>
         <p class="muted small">
-          Based in North Olmsted, serving Cleveland's west side and beyond. Not on the list? Ask, we probably go there.
+          Serving {business.area}. Based in {business.city}. Not on the list? Ask, we probably go there.
           <Todo>Confirm area</Todo>
         </p>
       </div>

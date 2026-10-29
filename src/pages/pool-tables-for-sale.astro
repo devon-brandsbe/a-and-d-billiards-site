@@ -2,16 +2,16 @@
 import Base from '@/layouts/Base.astro';
 import CtaBand from '@/components/CtaBand.astro';
 import Todo from '@/components/Todo.astro';
-import { listings } from '@/data/site';
+import { business, listings } from '@/data/site';
 ---
 
 <Base
-  title="Used Pool Tables for Sale near Cleveland, OH | A&D Billiards"
-  description="Pre-owned slate pool tables for sale in North Olmsted, checked over and set up in your room by A&D Billiards. Call or text (440) 523-9217."
+  title="Used Pool Tables for Sale in Cleveland and Neighboring Areas | A&D Billiards"
+  description={`Pre-owned slate pool tables for sale across ${business.area}, checked over and set up in your room by A&D Billiards. Call or text (440) 523-9217.`}
 >
   <section class="wrap stack intro">
     <p class="crumbs"><a href="/">Home</a> / Tables for sale</p>
-    <h1 class="h1">Pre-owned pool tables for sale near Cleveland</h1>
+    <h1 class="h1">Pre-owned pool tables for sale across {business.area}</h1>
     <p class="lede">
       Real slate tables we've checked over, set up and leveled in your room by the same people who sold it to you. Stock
       changes fast, so call or text if something catches your eye.

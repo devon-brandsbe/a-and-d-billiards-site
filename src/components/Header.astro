@@ -11,7 +11,7 @@ const isActive = (href: string) => path.startsWith(href);
 <header class="site-header">
   <div class="topbar">
     <div class="wrap topbar__inner">
-      <span>{business.tagline} · {business.city}, {business.region}</span>
+      <span>{business.tagline} · {business.area}</span>
       <span>
         Call or text <a href={business.phoneHref}>{business.phone}</a>
         · {business.hours || <Todo>Hours</Todo>}

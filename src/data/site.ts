@@ -9,6 +9,8 @@ export const business = {
   phoneHref: 'tel:+14405239217',
   email: 'adbilliardsllc@gmail.com',
   city: 'North Olmsted',
+  /** How we describe the area we cover. `city` is the home base. */
+  area: 'Cleveland and neighboring areas',
   region: 'OH',
   postalCode: '44070',
   facebook: 'https://www.facebook.com/adbilliardsllc',
@@ -77,6 +79,20 @@ export const services = [
   },
 ];
 
+/** Customer reviews shown on the home page. */
+export const reviews = [
+  {
+    quote:
+      'The best experience anyone could have. These guys are AMAZING. Came to my house within a few days of ordering. And did a fantastic job. What a power couple! I’m saving the company’s info and telling everyone I know. If you want quality GO HERE!',
+    name: 'Jeffrey C.',
+  },
+  {
+    quote:
+      'I could not have chosen a better company, David, amber and Devin did a spectacular job on my set up and the pool table is everything and more than they said I’m so happy with them and the pool table highly recommend',
+    name: 'Lana K',
+  },
+];
+
 /** Current listings. Add `image` (an imported photo) once real listing photos exist. */
 export const listings = [
   {
@@ -97,13 +113,21 @@ export const serviceArea: {
   cities: { name: string; slug: string; intro?: string }[];
 }[] = [
   {
+    group: 'Cleveland & east',
+    cities: [
+      { name: 'Cleveland', slug: 'cleveland' },
+      { name: 'Independence', slug: 'independence' },
+      { name: 'Seven Hills', slug: 'seven-hills' },
+    ],
+  },
+  {
     group: 'West side',
     cities: [
       {
         name: 'North Olmsted',
         slug: 'north-olmsted',
         intro:
-          "North Olmsted is home base for A&D Billiards, so we're usually just a few minutes away. Whether you're moving a table into a new place off Lorain Road or finally getting the basement table refelted, we can often get you on the calendar quickly.",
+          "We're based in North Olmsted and work across Cleveland and neighboring areas, so local jobs are usually just a few minutes away. Whether you're moving a table into a new place off Lorain Road or finally getting the basement table refelted, we can often get you on the calendar quickly.",
       },
       { name: 'Westlake', slug: 'westlake' },
       { name: 'Bay Village', slug: 'bay-village' },
@@ -133,14 +157,6 @@ export const serviceArea: {
       { name: 'North Ridgeville', slug: 'north-ridgeville' },
       { name: 'Elyria', slug: 'elyria' },
       { name: 'Sheffield', slug: 'sheffield' },
-    ],
-  },
-  {
-    group: 'Cleveland & east',
-    cities: [
-      { name: 'Cleveland', slug: 'cleveland' },
-      { name: 'Independence', slug: 'independence' },
-      { name: 'Seven Hills', slug: 'seven-hills' },
     ],
   },
 ];

@@ -4,7 +4,7 @@ import Base from '@/layouts/Base.astro';
 import PriceBoard from '@/components/PriceBoard.astro';
 import QuoteForm from '@/components/QuoteForm.astro';
 import Todo from '@/components/Todo.astro';
-import { business, services, listings } from '@/data/site';
+import { business, services, listings, reviews } from '@/data/site';
 
 import hero from '@/assets/photos/hero.jpg';
 import blackCarved from '@/assets/photos/black-carved.jpg';
@@ -39,16 +39,15 @@ const featured = listings.find((l) => l.status === 'in-stock');
 ---
 
 <Base
-  title="Pool Table Moving & Repair in North Olmsted, OH | A&D Billiards"
-  description="A&D Billiards moves, refelts, recushions and installs pool tables across North Olmsted and Cleveland's west side. 15+ years experience. Free quotes: (440) 523-9217."
+  title="Pool Table Moving & Repair in Cleveland and Neighboring Areas | A&D Billiards"
+  description={`A&D Billiards moves, refelts, recushions and installs pool tables across ${business.area}. Based in ${business.city}. 15+ years experience. Free quotes: (440) 523-9217.`}
 >
   <!-- HERO -->
   <section class="wrap hero">
     <div class="stack hero__text">
-      <h1 class="h1 hero__title">Pool table moving &amp; repair, done by people who play.</h1>
+      <h1 class="h1 hero__title">Pool table moving &amp; repair, backed by years of experience.</h1>
       <p class="lede">
-        We move, refelt, recushion and set up pool tables across {business.city} and the west side of Cleveland. Over 15
-        years in the trade, and every table leaves level.
+        We move, refelt, recushion and set up pool tables across {business.area}. Every table leaves level.
       </p>
       <div class="btn-row">
         <a href="#quote" class="btn">Get a free quote</a>
@@ -73,7 +72,7 @@ const featured = listings.find((l) => l.status === 'in-stock');
     <dl class="facts">
       <div><dt>{business.yearsExperience} years</dt><dd>moving and servicing tables</dd></div>
       <div><dt>7, 8 &amp; 9 ft</dt><dd>home and bar tables, slate included</dd></div>
-      <div><dt>Local crew</dt><dd>based right here in {business.city}</dd></div>
+      <div><dt>Local crew</dt><dd>{business.area}</dd></div>
       <div><dt>Tables for sale</dt><dd>quality pre-owned, set up in your room</dd></div>
     </dl>
   </section>
@@ -158,14 +157,10 @@ const featured = listings.find((l) => l.status === 'in-stock');
     <h2 class="h2" style="margin-bottom: 28px">What customers say</h2>
     <div class="reviews">
       {
-        [1, 2, 3].map(() => (
+        reviews.map((review) => (
           <blockquote>
-            <p>
-              “<Todo>Customer review from Google or Facebook</Todo>”
-            </p>
-            <footer>
-              <Todo>Name, City</Todo>
-            </footer>
+            <p>“{review.quote}”</p>
+            <footer>{review.name}</footer>
           </blockquote>
         ))
       }

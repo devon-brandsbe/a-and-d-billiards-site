@@ -5,7 +5,7 @@ import PageHero from '@/components/PageHero.astro';
 import FaqList from '@/components/FaqList.astro';
 import CtaBand from '@/components/CtaBand.astro';
 import Todo from '@/components/Todo.astro';
-import { prices, formatPrice } from '@/data/site';
+import { business, prices, formatPrice } from '@/data/site';
 import { cloth } from '@/data/faqs';
 import { faqSchema, serviceSchema } from '@/lib/schema';
 import { markTodos } from '@/lib/todo';
@@ -29,9 +29,8 @@ const colors = [
   { name: 'Black', src: blackCarved },
 ];
 
-const title = 'Pool Table Refelting & Repair near Cleveland | A&D Billiards';
-const description =
-  'Pool table refelting, recushioning, leveling and repair in your home. Standard and tournament cloth in many colors. North Olmsted and Greater Cleveland.';
+const title = 'Pool Table Refelting & Repair in Cleveland and Neighboring Areas | A&D Billiards';
+const description = `Pool table refelting, recushioning, leveling and repair in your home. Standard and tournament cloth in many colors. Serving ${business.area}.`;
 ---
 
 <Base
@@ -47,7 +46,7 @@ const description =
     cta="Quote my table"
   >
     Worn cloth, dead bumpers or a table that rolls off? Most tables don't need replacing, they need a tune-up. We do the
-    work in your home, usually in a single visit.
+    work in your home across {business.area}, usually in a single visit.
   </PageHero>
 
   <section class="wrap section">

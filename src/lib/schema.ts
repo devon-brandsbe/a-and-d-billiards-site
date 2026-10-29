@@ -26,6 +26,6 @@ export function serviceSchema(name: string, description: string, url: string) {
     description,
     url,
     provider: { '@id': new URL('/#business', url).href },
-    areaServed: 'Greater Cleveland, OH',
+    areaServed: 'Cleveland and neighboring areas, OH',
   };
 }

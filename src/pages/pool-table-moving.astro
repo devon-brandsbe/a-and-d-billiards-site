@@ -4,7 +4,7 @@ import PageHero from '@/components/PageHero.astro';
 import PriceBoard from '@/components/PriceBoard.astro';
 import FaqList from '@/components/FaqList.astro';
 import CtaBand from '@/components/CtaBand.astro';
-import { prices, formatPrice } from '@/data/site';
+import { business, prices, formatPrice } from '@/data/site';
 import { moving } from '@/data/faqs';
 import { faqSchema, serviceSchema } from '@/lib/schema';
 import greenLodge from '@/assets/photos/green-lodge.jpg';
@@ -34,9 +34,8 @@ const roomSizes = [
   ['9 ft', '50″ × 100″', '13′10″ × 18′'],
 ];
 
-const title = 'Pool Table Movers in North Olmsted & Cleveland | A&D Billiards';
-const description =
-  'Professional pool table moving: teardown, padded transport, reassembly and slate leveling. Serving North Olmsted, Westlake, Strongsville and Greater Cleveland.';
+const title = 'Pool Table Movers in Cleveland and Neighboring Areas | A&D Billiards';
+const description = `Professional pool table moving: teardown, padded transport, reassembly and slate leveling. Serving ${business.area}. Based in ${business.city}.`;
 ---
 
 <Base
@@ -46,7 +45,7 @@ const description =
 >
   <PageHero
     crumb="Pool table moving"
-    title="Pool table moving in North Olmsted & Greater Cleveland"
+    title={`Pool table moving in ${business.area}`}
     image={greenLodge}
     alt="Oak table with green felt set up in a lodge-style room"
     cta="Quote my move"
